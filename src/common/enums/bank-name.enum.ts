@@ -1,0 +1,6 @@
+export enum BankName {
+  WEMA = 'WEMA_BANK',
+  ACCESS = 'ACCESS_BANK',
+  STERLING = 'STERLING_BANK',
+  FLUTTERWAVE = 'FLUTTERWAVE',
+}

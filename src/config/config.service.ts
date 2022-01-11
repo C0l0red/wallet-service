@@ -1,52 +1,51 @@
 import { Injectable } from '@nestjs/common';
-import {TypeOrmOptionsFactory, TypeOrmModuleOptions} from '@nestjs/typeorm'
-import { ApplicationMode } from 'src/common/types/application-mode.enum';
+import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm';
+// import { ApplicationMode } from 'src/common/enums/application-mode.enum';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
 @Injectable()
 export class ConfigService implements TypeOrmOptionsFactory {
-    private readonly env: Object = process.env;
+  private readonly env: Record<string, string | undefined> = process.env;
 
-    getValue(key: string, throwIfMissing: boolean = true) {
-        const value = this.env[key];
+  getValue(key: string, throwIfMissing = true) {
+    const value = this.env[key];
 
-        if (!value && throwIfMissing) {
-            throw new Error(`${key} missing from environment variables`);
-        }
-
-        return value;
-    }
-    
-    isProduction(): boolean {
-        const mode: ApplicationMode = this.getValue("MODE");
-
-        if (mode == ApplicationMode.PRODUCTION) return true;
-        else if (mode == ApplicationMode.DEVELOPMENT) return false;
-        else throw new Error("Wrong application mode"); 
+    if (!value && throwIfMissing) {
+      throw new Error(`${key} missing from environment variables`);
     }
 
-    createTypeOrmOptions(connectionName?: string): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
-        return {
-            type: this.getValue("DB_TYPE"),
+    return value;
+  }
 
-            host: this.getValue("DB_HOST"),
-            port: parseInt(this.getValue("DB_PORT")),
-            username: this.getValue("DB_USER"),
-            password: this.getValue("DB_PASSWORD"),
-            database: this.getValue("DB_NAME"),
+  // isProduction(): boolean {
+  //   const mode: ApplicationMode = this.getValue('MODE') as ApplicationMode;
+  //
+  //   if (mode == ApplicationMode.PRODUCTION) return true;
+  //   else if (mode == ApplicationMode.DEVELOPMENT) return false;
+  //   else throw new Error('Wrong application mode');
+  // }
 
-            entities: ["dist/**/*.entity.{ts,js}"],
+  createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
+    return {
+      type: 'postgres',
 
-            migrationsTableName: "migration",
-            migrations: ["dist/migration/*.{ts,js}"],
+      host: this.getValue('DB_HOST'),
+      port: parseInt(this.getValue('DB_PORT')),
+      username: this.getValue('DB_USER'),
+      password: this.getValue('DB_PASSWORD'),
+      database: this.getValue('DB_NAME'),
 
-            cli: {
-                migrationsDir: "src/migration",
-            },
+      entities: ['dist/**/*.entity.{ts,js}'],
 
-            ssl: this.isProduction(),
-        }
-    }
+      migrationsTableName: 'migration',
+      migrations: ['dist/migration/*.{ts,js}'],
 
+      cli: {
+        migrationsDir: 'src/migration',
+      },
+
+      ssl: false,
+    };
+  }
 }
