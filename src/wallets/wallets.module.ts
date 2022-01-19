@@ -5,4 +5,4 @@ import { Wallet } from './entities/wallet.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Wallet])],
 })
-export class WalletModule {}
+export class WalletsModule {}

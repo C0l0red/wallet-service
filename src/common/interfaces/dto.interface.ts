@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface Dto {}
 
-export interface EntityDto extends Dto {}
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface EntityDto<Entity> extends Dto {}

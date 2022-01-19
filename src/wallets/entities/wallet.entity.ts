@@ -1,6 +1,6 @@
-import { Entity as EntityInterface } from 'src/common/interfaces/entity.interface';
-import { BankName } from 'src/common/enums/bank-name.enum';
-import { User } from 'src/user/entities/user.entity';
+import { Entity as EntityInterface } from '../../common/interfaces/entity.interface';
+import { BankName } from '../../common/enums/bank-name.enum';
+import { User } from '../../users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,

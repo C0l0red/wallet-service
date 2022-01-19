@@ -5,4 +5,4 @@ import { Profile } from './entities/profile.entity';
 @Module({
   imports: [TypeOrmModule.forFeature([Profile])],
 })
-export class ProfileModule {}
+export class ProfilesModule {}

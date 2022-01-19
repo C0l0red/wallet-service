@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { TypeOrmOptionsFactory, TypeOrmModuleOptions } from '@nestjs/typeorm';
-// import { ApplicationMode } from 'src/common/enums/application-mode.enum';
+import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
+import { ApplicationMode } from '../common/enums/application-mode.enum';
 import * as dotenv from 'dotenv';
 
 dotenv.config();
+
 @Injectable()
 export class ConfigService implements TypeOrmOptionsFactory {
   private readonly env: Record<string, string | undefined> = process.env;
@@ -18,13 +19,13 @@ export class ConfigService implements TypeOrmOptionsFactory {
     return value;
   }
 
-  // isProduction(): boolean {
-  //   const mode: ApplicationMode = this.getValue('MODE') as ApplicationMode;
-  //
-  //   if (mode == ApplicationMode.PRODUCTION) return true;
-  //   else if (mode == ApplicationMode.DEVELOPMENT) return false;
-  //   else throw new Error('Wrong application mode');
-  // }
+  isProduction(): boolean {
+    const mode: ApplicationMode = this.getValue('MODE') as ApplicationMode;
+
+    if (mode == ApplicationMode.PRODUCTION) return true;
+    else if (mode == ApplicationMode.DEVELOPMENT) return false;
+    else throw new Error('Wrong application mode');
+  }
 
   createTypeOrmOptions(): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
     return {
