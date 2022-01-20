@@ -39,11 +39,11 @@ export class ConfigService implements TypeOrmOptionsFactory {
 
       entities: ['dist/**/*.entity.{ts,js}'],
 
-      migrationsTableName: 'migration',
-      migrations: ['dist/migration/*.{ts,js}'],
+      migrationsTableName: 'migrations',
+      migrations: ['dist/migrations/*.{ts,js}'],
 
       cli: {
-        migrationsDir: 'src/migration',
+        migrationsDir: 'src/migrations',
       },
 
       ssl: false,

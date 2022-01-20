@@ -1,14 +1,21 @@
 import { AuthService } from '../auth/auth.service';
 import { User } from '../users/entities/user.entity';
 import { UsersService } from '../users/users.service';
+import { UserDto } from '../users/dtos/user.dto';
 
 export const mockCredentials = {
   email: 'test@test.com',
   password: 'Star5454!!',
 };
 
-export const mockUser: User = {
+export const mockUserDto: UserDto = {
   ...mockCredentials,
+  firstName: 'Test',
+  lastName: 'User',
+};
+
+export const mockUser: User = {
+  ...mockUserDto,
 } as unknown as User;
 
 export const mockAuthService: AuthService = {
@@ -16,12 +23,12 @@ export const mockAuthService: AuthService = {
 } as unknown as AuthService;
 
 export const mockUsersService: UsersService = {
-  create: jest.fn(),
-  findAll: jest.fn(),
-  findOne: jest.fn(),
+  create: jest.fn().mockResolvedValue(mockUser),
+  findAll: jest.fn().mockResolvedValue([mockUser]),
+  findOne: jest.fn().mockResolvedValue(mockUser),
   findByEmail: jest.fn().mockResolvedValue(mockUser),
-  update: jest.fn(),
-  remove: jest.fn(),
+  update: jest.fn().mockResolvedValue(mockUser),
+  remove: jest.fn().mockImplementation(() => Promise.resolve()),
   verifyPassword: jest.fn().mockResolvedValue(true),
   failIfNotPermitted: jest.fn(),
 } as unknown as UsersService;
